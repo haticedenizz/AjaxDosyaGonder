@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Ajax ile Dosya Yükleme</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @*<form method="post" action="Home/Index" enctype="multipart/form-data"></form>*@
+
+                @using (Html.BeginForm("Index","Home",FormMethod.Post,new { enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="file" id="file" class="form-control" />
+                    <input type="button" id="DosyaGonder" value="Dosya Gönder" class="btn btn-success" />
+                }
+
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $("#DosyaGonder").click(function () {
+            var veri = new FormData($("form").get(0));
+      /*var veri = new FormData($("#form"));*/
+
+            $.ajax({
+                method: "POST",
+                url:'@Url.Action("DosyaGonder","Home")',
+                data: veri,
+                processData: false,
+                contentType:false,
+
+            }).done(function (sonuc) {
+
+                alert(sonuc.mesaj);
+
+            })
+        })
+
+    </script>
+</body>
+</html>
